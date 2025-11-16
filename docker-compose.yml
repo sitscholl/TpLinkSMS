@@ -1,0 +1,11 @@
+services:
+  tp_sms:
+    image: ghcr.io/sitscholl/tp_sms:latest
+    container_name: tp-sms
+    environment:
+      - TZ=Europe/Rome
+    ports:
+      - "7772:8080"
+    volumes:
+      ./config/:/appconfig/
+    restart: unless-stopped
