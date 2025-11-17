@@ -86,8 +86,6 @@ class Router:
         except Exception as e:
             logger.error(f"Error sending sms: {e}")
             raise e
-        finally:
-            await self.close(page, ctx, browser)
 
 async def _debug_main():
     from .config import load_config
