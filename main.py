@@ -9,7 +9,7 @@ from pathlib import Path
 from src.config import load_config
 from src.router import Router
 
-config = load_config(Path(__file__).parent + "config/config.yaml")
+config = load_config(Path(__file__).parent / "config/config.yaml")
 logging.config.dictConfig(config['logging'])
 logger = logging.getLogger(__name__)
 
