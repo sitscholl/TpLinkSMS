@@ -1,0 +1,4 @@
+config/
+.venv/
+.github/
+docker-compose.yml
