@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright/python:latest
+FROM mcr.microsoft.com/playwright/python:v1.50.0-noble
 
 # System tzdata optional; uncomment if you want correct logs
 # RUN apt-get update && apt-get install -y tzdata && rm -rf /var/lib/apt/lists/*
