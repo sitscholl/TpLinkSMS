@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Union
 from fastapi import FastAPI, HTTPException, Depends
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 import logging
 import logging.config
@@ -16,12 +16,33 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="TP-Link Router based SMS Api",
     description="Send SMS from the TP-Link router UI",
-    version="1.0.0"
+    version="1.1.0"
 )
 
 class SmsRequest(BaseModel):
-    to: List[str] = Field(min_items=1)
-    message: str = Field(min_length=1, max_length=160)  # TP-Link often ~ 3x 160 chars
+    message: str = Field(min_length=1, max_length=160)
+    to: Union[str, List[str]]
+
+    # Accept extra fields without error
+    model_config = {
+        "extra": "ignore"
+    }
+
+    @field_validator("to")
+    def normalize_to_list(cls, v):
+        # Case 1: already a list
+        if isinstance(v, list):
+            # Ensure all items are strings and stripped
+            return [str(item).strip() for item in v if str(item).strip()]
+        
+        # Case 2: single string
+        if isinstance(v, str):
+            # Split by comma or semicolon
+            parts = [p.strip() for p in v.replace(";", ",").split(",")]
+            # Filter out empty items
+            return [p for p in parts if p]
+        
+        raise TypeError("Invalid type for 'to': must be string or list of strings")
 
 def get_router():
     """
