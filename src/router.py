@@ -70,6 +70,8 @@ class Router:
 
                 # 3) Fill recipients & message
                 for number in to_numbers:
+                    await page.wait_for_selector('textarea[id="inputContent"]', timeout=8000)
+                    
                     await page.fill('input[id="toNumber"]', number)
                     await page.fill('textarea[id="inputContent"]', message)
                     await self._snap(page, f"filled-{number}")
