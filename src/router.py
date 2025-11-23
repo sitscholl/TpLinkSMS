@@ -80,6 +80,7 @@ class Router:
                     await page.click('button:has-text("Send")')
                     # Wait for a success toast/alert; change selector text accordingly:
                     # await page.wait_for_selector('text=Message Sent', timeout=10000)
+                    time.sleep(10)
 
                 await page.click('a[id=topLogout]')
                 await page.click('button:has-text("Yes")')
